@@ -32,6 +32,7 @@ namespace RealEstate_Dapper_UI.Controllers
         {
            return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
         {
@@ -45,6 +46,7 @@ namespace RealEstate_Dapper_UI.Controllers
             }
             return View(); 
         }
+
         public async Task<IActionResult>DeleteCategory(int id)
         {
             var client = _httpClientFactory.CreateClient();
@@ -55,6 +57,7 @@ namespace RealEstate_Dapper_UI.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public async Task<IActionResult> UpdateCategory(int id) 
         { 
@@ -68,13 +71,14 @@ namespace RealEstate_Dapper_UI.Controllers
             }
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateCategoryDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:44342/api/Categories", stringContent);
+            var responseMessage = await client.PutAsync("https://localhost:44342/api/Categories/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
