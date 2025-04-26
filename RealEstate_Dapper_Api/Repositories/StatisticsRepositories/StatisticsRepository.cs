@@ -12,7 +12,7 @@ namespace RealEstate_Dapper_Api.Repositories.StatisticsRepositories
         {
             _context = context;
         }
-        public int ActiveCategoryCount()
+        public int ActiveCategoryCount()  // Aktif Kategori Sayısı
         {
             string query = "Select Count(*) From Category where CategoryStatus=1";
             using (var connection = _context.CreateConnection())
@@ -22,9 +22,9 @@ namespace RealEstate_Dapper_Api.Repositories.StatisticsRepositories
             }
         }
 
-        public int ActiveEmployeeCount()
+        public int ActiveEmployeeCount()  // Aktif Personel Sayısı
         {
-            string query = "Select Count(*) From Employee where Status=1";
+            string query = "Select Count(*) From Employee where Status=1"; 
             using (var connection = _context.CreateConnection())
             {
                 var values = connection.QueryFirstOrDefault<int>(query);
@@ -34,32 +34,62 @@ namespace RealEstate_Dapper_Api.Repositories.StatisticsRepositories
 
         public int ApartmentCount()
         {
-            throw new NotImplementedException();
+            string query = "Select Count(*) From Product where Title like '%Daire%'";  // Toplam Daire Sayısı
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<int>(query);
+                return values;
+            }
         }
 
-        public decimal AverageProductByRent()
+        public decimal AverageProductPriceByRent()  // Ortalama Kiralık Fiyatı
         {
-            throw new NotImplementedException();
+            string query = "Select Avg(Price) From Product where Type='Kiralık'";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<decimal>(query);
+                return values;
+            }
         }
 
-        public decimal AverageProductBySale()
+        public decimal AverageProductPriceBySale()     // Ortalama Satılık Fiyatı
         {
-            throw new NotImplementedException();
+            string query = "Select Avg(Price) From Product where Type='Satılık'";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<decimal>(query);
+                return values;
+            }
         }
 
         public int AverageRoomCount()
         {
-            throw new NotImplementedException();
+            string query = "Select Avg(RoomCount) From ProductDetails";  // Ortalama Oda Sayısı
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<int>(query);
+                return values;
+            }
         }
 
         public int CategoryCount()
         {
-            throw new NotImplementedException();
+            string query = "Select Count(*) From Category";        // Toplam Kategori Sayısı
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<int>(query);
+                return values;
+            }
         }
 
-        public string CategoryNameByMaxProductCount()
+        public string CategoryNameByMaxProductCount()   // En Fazla Ürünü Olan Kategori İsmi
         {
-            throw new NotImplementedException();
+            string query = "Select top(1) CategoryName,Count(*) From Product inner join Category On Product.ProductCategory=Category.CategoryID Group By CategoryName order by Count(*) Desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<string>(query);
+                return values;
+            }
         }
 
         public string CityNameByMaxProductCount()
