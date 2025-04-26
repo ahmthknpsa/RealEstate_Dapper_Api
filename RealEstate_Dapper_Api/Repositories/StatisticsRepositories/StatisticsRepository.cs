@@ -92,44 +92,84 @@ namespace RealEstate_Dapper_Api.Repositories.StatisticsRepositories
             }
         }
 
-        public string CityNameByMaxProductCount()
+        public string CityNameByMaxProductCount() // En Fazla Ürünü Olan Şehir İsmi
         {
-            throw new NotImplementedException();
+            string query = "Select top(1) City,Count(*) as 'product_count' From Product Group By City order by product_count Desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<string>(query);
+                return values;
+            }
         }
 
-        public int DifferentCityCount()
+        public int DifferentCityCount()   // Toplamda Kaç Farklı Şehir Var
         {
-            throw new NotImplementedException();
+            string query = "Select Count(Distinct(City)) From Product ";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<int>(query);
+                return values;
+            }
         }
 
-        public string EmployeeNameByMaxProductCount()
+        public string EmployeeNameByMaxProductCount() // En Fazla İlanı Olan Personel
         {
-            throw new NotImplementedException();
+            string query = "Select Name,Count(*) 'product_count' From Product Inner Join Employee On Product.EmployeeID=Employee.EmployeeID Group By Name Order By product_count Desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<string>(query);
+                return values;
+            }
         }
 
-        public decimal LastProductPrice()
+        public decimal LastProductPrice()  // Son Eklenen Ürünün Fiyatı
         {
-            throw new NotImplementedException();
+            string query = "Select Top(1) Price From Product Order By ProductId Desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<decimal>(query);
+                return values;
+            }
         }
 
-        public string NewestBuildingYear()
+        public string NewestBuildingYear()   // En Yeni Bina Yılı
         {
-            throw new NotImplementedException();
+            string query = "Select Top(1) BuildYear From ProductDetails Order By BuildYear Desc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<string>(query);
+                return values;
+            }
         }
 
-        public string OldestBuildingYear()
+        public string OldestBuildingYear()   // En Eski Bina Yılı
         {
-            throw new NotImplementedException();
+            string query = "Select Top(1) BuildYear From ProductDetails Order By BuildYear Asc";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<string>(query);
+                return values;
+            }
         }
 
-        public int PassiveCategoryCount()
+        public int PassiveCategoryCount()  // Pasif Kategori Sayısı
         {
-            throw new NotImplementedException();
+            string query = "Select Count(*) From Category Where CategoryStatus=0";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<int>(query);
+                return values;
+            }
         }
 
-        public int ProductCount()
+        public int ProductCount()  // Toplam Ürün Sayısı
         {
-            throw new NotImplementedException();
+            string query = "Select Count(*) From Product";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<int>(query);
+                return values;
+            }
         }
     }
 }
