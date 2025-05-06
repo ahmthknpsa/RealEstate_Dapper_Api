@@ -28,8 +28,8 @@
                                 }).catch((err) => { console.log(err) });
 
                                
-                                connection.on("ReceiveCategoryCount", (value) => {
-                                    $("#categorycount").text(value);
+                                connection.on("ReceiveCategoryCount", (value1) => {
+                                    $("#categorycount").text(value1);
                                 });
 
                             });
